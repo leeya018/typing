@@ -27,6 +27,7 @@ export default function Typing({}) {
       clearInterval(interval);
     }
   }, [isDone]);
+
   useEffect(() => {
     inputRef.current.focus();
 

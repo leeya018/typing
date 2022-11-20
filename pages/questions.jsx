@@ -1,7 +1,3 @@
-export default function GoalHelper() {
-  return <div>qusition </div>;
-}
-
 // import {
 //   goalError,
 //   addAnswer,

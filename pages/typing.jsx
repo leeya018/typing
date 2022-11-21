@@ -111,12 +111,15 @@ export default function Typing({}) {
   //   console.log(colorArr);
 
   const restartAgain = () => {
-    setSeconds(-1);
+    setSeconds(0);
     setIsDone(false);
     setColorArr([]);
     setResult({ amountCorrect: 0, amountWrong: 0 });
     setMyWord("");
+
     setCharInd(0);
+    clearInterval(interval);
+    startInerval();
     inputRef.current.focus();
   };
   const restartNext = () => {

@@ -1,4 +1,6 @@
+import { updateIndex, updateTexts } from "actions";
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { basicUrl, methods } from "util";
 import useFetch from "./useFetch";
 
@@ -7,8 +9,13 @@ const createArr = (txt) => {
 };
 
 export default function useText() {
-  const [textArr, setTextArr] = useState();
+  // const [textArr, setTextArr] = useState();
+
   const { data, invoke } = useFetch();
+  const { index, texts } = useSelector((state) => state.texts);
+  const dispatch = useDispatch();
+
+  console.log(texts);
 
   useEffect(() => {
     (async () => {
@@ -17,13 +24,19 @@ export default function useText() {
   }, []);
   useEffect(() => {
     if (data.length > 0) {
-      setTextArr(createArr(data[0].context));
+      dispatch(updateTexts(data.map((item) => createArr(item.context))));
     }
   }, [data]);
 
-  const createNewTxt = () => {
-    // setTextArr(createArr(lorem.generateWords(200)));
+  const getNewTxt = () => {
+    const len = texts.length;
+    const newInd = index === len - 1 ? 0 : index + 1;
+    dispatch(updateIndex(newInd));
   };
+  // const getSameTxt = () => {
+  //   dispatch(updateIndex(index + 1));
+  //   return texts[index];
+  // };
 
-  return [textArr, createNewTxt];
+  return { getNewTxt };
 }

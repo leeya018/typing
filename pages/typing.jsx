@@ -1,5 +1,6 @@
 import useText from "hooks/useText";
 import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
 const COLORS = {
   green: "bg-green-500",
@@ -12,13 +13,14 @@ let interval;
 const mode = "You have a minute";
 
 export default function Typing({}) {
-  const [index, setIndex] = useState(0);
-  const [textArr, createNewTxt] = useText();
+  const [charInd, setCharInd] = useState(0);
+  const { getNewTxt } = useText();
   const [colorArr, setColorArr] = useState([]);
   const [myWord, setMyWord] = useState("");
   const [result, setResult] = useState({ amountCorrect: 0, amountWrong: 0 });
   const [seconds, setSeconds] = useState(0);
   const [isDone, setIsDone] = useState(false);
+  const { index, texts } = useSelector((state) => state.texts);
 
   const inputRef = useRef(null);
 
@@ -44,10 +46,10 @@ export default function Typing({}) {
 
   useEffect(() => {
     checkIfDone();
-  }, [index]);
+  }, [charInd]);
 
   const checkIfDone = () => {
-    if (colorArr.length === textArr?.length) {
+    if (colorArr.length === texts[0]?.length) {
       calcScore();
     }
   };
@@ -68,23 +70,24 @@ export default function Typing({}) {
     setIsDone(true);
   };
 
-  console.log(colorArr);
+  console.log({ index });
   const handleChange = (e) => {
     console.log(e.target.value);
     const word = e.target.value;
     if (word[word.length - 1] === " ") {
       if (word.length > 1) {
         checkFit(word.substring(0, word.length - 1));
-        setIndex((prev) => prev + 1);
+        setCharInd((prev) => prev + 1);
       }
       setMyWord("");
+
       return;
     }
     setMyWord(word);
   };
 
-  const checkFit = (text) => {
-    if (textArr[index] === text) {
+  const checkFit = (word) => {
+    if (texts[index][charInd] === word) {
       setColorArr((prev) => [...prev, COLORS.green]);
     } else {
       setColorArr((prev) => [...prev, COLORS.red]);
@@ -109,11 +112,11 @@ export default function Typing({}) {
   const restart = () => {
     setSeconds(-1);
     setIsDone(false);
-    createNewTxt();
+    getNewTxt();
     setColorArr([]);
     setResult({ amountCorrect: 0, amountWrong: 0 });
     setMyWord("");
-    setIndex(0);
+    setCharInd(0);
     inputRef.current.focus();
   };
 
@@ -125,7 +128,7 @@ export default function Typing({}) {
       <h1 className="font-bold text-4xl">typing </h1>
       <h2 className="font-bold text-xl">{mode}</h2>
       <p className="text-bold">timer : {seconds} </p>
-      {format(textArr)}
+      {format(texts[index])}
       <input
         disabled={isDone}
         ref={inputRef}

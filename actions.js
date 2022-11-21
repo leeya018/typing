@@ -9,8 +9,8 @@ export const updateTexts = (texts) => {
   };
 };
 
-export const motivationError = (error) => ({
-  type: types.ERROR_MOTIVATION,
+export const textError = (error) => ({
+  type: types.ERROR_TEXTS,
   payload: error,
 });
 

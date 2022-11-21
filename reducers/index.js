@@ -4,13 +4,16 @@ import * as types from "../types";
 const initialTexts = {
   texts: [],
   error: "",
+  index: 0,
 };
 
 const textsReducer = (state = initialTexts, { type, payload }) => {
   switch (type) {
     case types.UPDATE_TEXTS:
-      return { ...state, answers: payload };
-    case types.ERROR_MOTIVATION:
+      return { ...state, texts: payload };
+    case types.UPDATE_INDEX:
+      return { ...state, index: payload };
+    case types.ERROR_TEXTS:
       return { ...state, error: payload };
 
     default:

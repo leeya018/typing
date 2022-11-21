@@ -9,8 +9,6 @@ const createArr = (txt) => {
 };
 
 export default function useText() {
-  // const [textArr, setTextArr] = useState();
-
   const { data, invoke } = useFetch();
   const { index, texts } = useSelector((state) => state.texts);
   const dispatch = useDispatch();
@@ -33,10 +31,6 @@ export default function useText() {
     const newInd = index === len - 1 ? 0 : index + 1;
     dispatch(updateIndex(newInd));
   };
-  // const getSameTxt = () => {
-  //   dispatch(updateIndex(index + 1));
-  //   return texts[index];
-  // };
 
   return { getNewTxt };
 }

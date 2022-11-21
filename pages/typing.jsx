@@ -109,22 +109,31 @@ export default function Typing({}) {
   };
   //   console.log(colorArr);
 
-  const restart = () => {
+  const restartAgain = () => {
     setSeconds(-1);
     setIsDone(false);
-    getNewTxt();
     setColorArr([]);
     setResult({ amountCorrect: 0, amountWrong: 0 });
     setMyWord("");
     setCharInd(0);
     inputRef.current.focus();
   };
+  const restartNext = () => {
+    restartAgain();
+    getNewTxt();
+  };
 
   return (
     <div>
-      <button className="btn btn-primary" onClick={restart}>
-        restart
-      </button>
+      <div className="flex justify-between">
+        <button className="btn btn-primary" onClick={restartNext}>
+          restart
+        </button>
+
+        <button className="btn btn-primary" onClick={restartAgain}>
+          again
+        </button>
+      </div>
       <h1 className="font-bold text-4xl">typing </h1>
       <h2 className="font-bold text-xl">{mode}</h2>
       <p className="text-bold">timer : {seconds} </p>

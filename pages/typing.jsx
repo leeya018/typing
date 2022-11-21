@@ -31,11 +31,12 @@ export default function Typing({}) {
   }, [isDone]);
 
   useEffect(() => {
-    inputRef.current.focus();
-
-    startInerval();
+    if (texts && texts.length > 0) {
+      inputRef.current.focus();
+      startInerval();
+    }
     return () => clearInterval(interval);
-  }, []);
+  }, [texts]);
 
   useEffect(() => {
     if (seconds === TOTAL_TIME) {

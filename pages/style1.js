@@ -26,6 +26,7 @@ const rotate = keyframes`
     transform: rotate(360deg);
   }
 `;
+// tensiernts
 
 // Here we create a component that will rotate everything we pass in over two seconds
 export const Rotate = styled.div`

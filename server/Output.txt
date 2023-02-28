@@ -1,0 +1,4 @@
+Project: typing  ===>
+ - proccess for the git => done
+ - just a commetn => done
+ - this is not checked => done

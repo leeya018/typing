@@ -1,29 +1,41 @@
-import { Slider } from "@mui/material";
+import { Checkbox, Slider } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const p1 = { value: 10000, percent: 0.1 };
-const p2 = { value: 5000, percent: 0.2 };
-const p3 = { value: 4000, percent: 0.2 };
-const p4 = { value: 4000, percent: 0.2 };
+const p1 = { name: "1", value: 10000, percent: 0.1, checked: false };
+const p2 = { name: "2", value: 5000, percent: 0.2, checked: false };
+const p3 = { name: "3", value: 4000, percent: 0.2, checked: false };
+const p4 = { name: "4", value: 4000, percent: 0.2, checked: false };
 
-const products = [p1, p2, p3, p4];
+const _products = [p1, p2, p3, p4];
 
 export default function Index({}) {
   const [clients, setClients] = useState(5000);
+  const [products, setProducts] = useState(_products);
 
   const getTotal = () => {
-    return (
-      parseInt(clients * p1.percent) * p1.value +
-      parseInt(clients * p2.percent) * p2.value +
-      parseInt(clients * p3.percent) * p3.value +
-      parseInt(clients * p4.percent) * p4.value
-    );
+    return products.reduce((acc, p) => {
+      const { value, percent, checked } = p;
+      return parseInt(clients * percent) * value * (checked ? 1 : 0) + acc;
+    }, 0);
   };
 
   const getItem = (prod, key) => {
     return (
       <div key={key} className=" flex justify-center">
+        <Checkbox
+          value={prod.checked}
+          onChange={() =>
+            setProducts(
+              products.map((p) => {
+                if (p.name == key + 1) {
+                  p.checked = !p.checked;
+                }
+                return p;
+              })
+            )
+          }
+        />
         <span className="border-yellow-500 inline-block">
           <span className="font-bold text-lg">
             clients for product {key + 1} :
